@@ -1,0 +1,3 @@
+#Onboarding - julie
+#Sistema operacional: ...
+Versão do git: 2.43.0
