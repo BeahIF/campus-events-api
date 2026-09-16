@@ -1,24 +1,24 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { Express } from 'express';
-import request from 'supertest';
-import { getConfig } from '../config';
-import { applyMigrations } from '../database/migrate';
-import { getPool } from '../database/pool';
-import { Queries, makeQueries } from '../database/queries';
-import { makeApp } from '../app';
-import { makeMiddleware } from '../middleware';
-import pino from 'pino';
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { Express } from "express";
+import request from "supertest";
+import { getConfig } from "../config";
+import { applyMigrations } from "../database/migrate";
+import { getPool } from "../database/pool";
+import { Queries, makeQueries } from "../database/queries";
+import { makeApp } from "../app";
+import { makeMiddleware } from "../middleware";
+import pino from "pino";
 
-const logger = pino({ level: 'silent' });
+const logger = pino({ level: "silent" });
 
-describe('people router', () => {
-  const config = getConfig('TEST_');
+describe("people router", () => {
+  const config = getConfig("TEST_");
   let app: Express;
   let queries: Queries;
 
   // migrate up and create app before all tests
   beforeAll(async () => {
-    await applyMigrations(config.databaseUrl, 'up');
+    await applyMigrations(config.databaseUrl, "up");
     const middleware = makeMiddleware(logger);
     queries = makeQueries(config.databaseUrl);
     app = makeApp({ queries, middleware });
@@ -27,73 +27,75 @@ describe('people router', () => {
   // empty database before each test
   beforeEach(async () => {
     const pool = getPool(config.databaseUrl);
-    await pool.query('DELETE FROM people');
+    await pool.query("DELETE FROM people");
   });
 
   // migrate down and close database connection after all tests
   afterAll(async () => {
-    await applyMigrations(config.databaseUrl, 'down');
+    await applyMigrations(config.databaseUrl, "down");
     await getPool(config.databaseUrl).end();
   });
 
-  describe('GET /people', () => {
-    it('responds with correct data', async () => {
+  describe("GET /people", () => {
+    it("responds with correct data", async () => {
       // make sure database is empty
       const people = await queries.getAllPeople();
       expect(people).toHaveLength(0);
 
-      const response1 = await request(app).get('/people');
+      const response1 = await request(app).get("/people");
       expect(response1.statusCode).toBe(200);
-      expect(response1.headers['content-type']).toContain('application/json');
+      expect(response1.headers["content-type"]).toContain("application/json");
       expect(response1.body).toHaveLength(0);
 
       // add people
-      await queries.addPerson({ name: 'John', age: 20 });
-      await queries.addPerson({ name: 'Joe', age: 21 });
+      await queries.addPerson({ name: "John", age: 20 });
+      await queries.addPerson({ name: "Joe", age: 21 });
 
-      const response2 = await request(app).get('/people');
+      const response2 = await request(app).get("/people");
       expect(response2.statusCode).toBe(200);
-      expect(response2.headers['content-type']).toContain('application/json');
+      expect(response2.headers["content-type"]).toContain("application/json");
       expect(response2.body).toHaveLength(2);
       expect(response2.body).toEqual([
-        { name: 'John', age: 20 },
-        { name: 'Joe', age: 21 },
+        { name: "John", age: 20 },
+        { name: "Joe", age: 21 },
       ]);
     });
   });
 
-  describe('POST /people', () => {
-    it('adds to database', async () => {
+  describe("POST /people", () => {
+    it("adds to database", async () => {
       // make sure database is empty
       const people1 = await queries.getAllPeople();
       expect(people1).toHaveLength(0);
 
-      const response = await request(app).post('/people').send({ name: 'Joe', age: 21 });
+      const response = await request(app)
+        .post("/people")
+        .send({ name: "Joe", age: 21 });
       expect(response.statusCode).toBe(200);
-      expect(response.headers['content-type']).toContain('application/json');
-      expect(response.body).toEqual({ name: 'Joe', age: 21 });
+      expect(response.headers["content-type"]).toContain("application/json");
+      expect(response.body).toEqual({ name: "Joe", age: 21 });
 
       // make sure it was added to database
       const people2 = await queries.getAllPeople();
       expect(people2).toHaveLength(1);
     });
 
-    it('responds with status 400 with invalid body', async () => {
+    it("responds with status 400 with invalid body", async () => {
       const bodyData = [
-        { name: 'Joe' },
-        { name: '   ', age: 20 },
+        { name: "Joe" },
+        { name: "   ", age: 20 },
         { age: 20 },
         {},
         { name: 123, age: 20 },
-        { name: 'Joe', age: '123' },
-        { name: 'Joe', age: 200 },
-        { name: 'Joe', age: -10 },
+        { name: "Joe", age: "123" },
+        { name: "Joe", age: 200 },
+        { name: "Joe", age: -10 },
       ];
 
       for (const body of bodyData) {
-        const response = await request(app).post('/people').send(body);
+        const response = await request(app).post("/people").send(body);
         expect(response.statusCode).toBe(400);
-        expect(response.headers['content-type']).toContain('application/json');
+        expect(response.headers["content-type"]).toContain("application/json");
         expect(response.body).toEqual({
           status: 400,
           message: expect.any(String),
@@ -105,13 +107,32 @@ describe('people router', () => {
       const people = await queries.getAllPeople();
       expect(people).toHaveLength(0);
     });
+
+    it.each([
+      ["missing age", { name: "Joe" }],
+      ["blank name", { name: "   ", age: 20 }],
+      ["missing name", { age: 20 }],
+      ["empty body", {}],
+      ["name as number", { name: 123, age: 20 }],
+      ["age as string", { name: "Joe", age: "123" }],
+      ["age above limit", { name: "Joe", age: 200 }],
+      ["negative age", { name: "Joe", age: -10 }],
+    ])("returns 400: %s", async (_case, body) => {
+      const response = await request(app).post("/people").send(body);
+
+      expect(response.statusCode).toBe(400);
+      expect(response.headers["content-type"]).toContain("application/json");
+      // make sure nothing was added to database
+      const people = await queries.getAllPeople();
+      expect(people).toHaveLength(0);
+    });
   });
 
-  describe('undefined route', () => {
-    it('responds with 404 and json', async () => {
-      const response = await request(app).get('/route/not/defined');
+  describe("undefined route", () => {
+    it("responds with 404 and json", async () => {
+      const response = await request(app).get("/route/not/defined");
       expect(response.statusCode).toBe(404);
-      expect(response.headers['content-type']).toContain('application/json');
+      expect(response.headers["content-type"]).toContain("application/json");
       expect(response.body).toEqual({
         status: 404,
         message: expect.any(String),
