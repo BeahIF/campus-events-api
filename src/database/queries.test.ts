@@ -70,7 +70,7 @@ describe("queries", () => {
       );
 
       const result = await queries.checkConnection();
-      expect(result).toBe(true);
+      expect(result).toBe(false);
     });
   });
 
