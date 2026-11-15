@@ -1,0 +1,110 @@
+
+> template-node-express@0.0.1 test
+> vitest --run
+
+
+ RUN  v3.1.4 C:/Users/RIC/Desktop/Aulas de quarta/TÓPICOS EM DESENVOLVIMENTO DE SISTEMAS/trabalhos/campus-events-api
+
+stderr | src/routes/people.test.ts > people router
+could not connect to postgres: Error: Connection terminated unexpectedly
+    at Connection.<anonymous> (C:\Users\RIC\Desktop\Aulas de quarta\TÓPICOS EM DESENVOLVIMENTO DE SISTEMAS\trabalhos\campus-events-api\node_modules\pg\lib\client.js:136:73)
+    at Object.onceWrapper (node:events:622:28)
+    at Connection.emit (node:events:508:20)
+    at Socket.<anonymous> (C:\Users\RIC\Desktop\Aulas de quarta\TÓPICOS EM DESENVOLVIMENTO DE SISTEMAS\trabalhos\campus-events-api\node_modules\pg\lib\connection.js:62:12)
+    at Socket.emit (node:events:508:20)
+    at TCP.<anonymous> (node:net:347:12)
+
+stderr | src/routes/people.test.ts > people router
+could not connect to postgres: Error: Connection terminated unexpectedly
+    at Connection.<anonymous> (C:\Users\RIC\Desktop\Aulas de quarta\TÓPICOS EM DESENVOLVIMENTO DE SISTEMAS\trabalhos\campus-events-api\node_modules\pg\lib\client.js:136:73)
+    at Object.onceWrapper (node:events:622:28)
+    at Connection.emit (node:events:508:20)
+    at Socket.<anonymous> (C:\Users\RIC\Desktop\Aulas de quarta\TÓPICOS EM DESENVOLVIMENTO DE SISTEMAS\trabalhos\campus-events-api\node_modules\pg\lib\connection.js:62:12)
+    at Socket.emit (node:events:508:20)
+    at TCP.<anonymous> (node:net:347:12)
+
+ ❯ src/routes/people.test.ts (4 tests | 4 skipped) 30ms
+   ↓ people router > GET /people > responds with correct data
+   ↓ people router > POST /people > adds to database
+   ↓ people router > POST /people > responds with status 400 with invalid body
+   ↓ people router > undefined route > responds with 404 and json
+stderr | src/routes/health.test.ts > health router
+could not connect to postgres: error: the database system is starting up
+    at Parser.parseErrorMessage (C:\Users\RIC\Desktop\Aulas de quarta\TÓPICOS EM DESENVOLVIMENTO DE SISTEMAS\trabalhos\campus-events-api\node_modules\pg-protocol\src\parser.ts:369:69)
+    at Parser.handlePacket (C:\Users\RIC\Desktop\Aulas de quarta\TÓPICOS EM DESENVOLVIMENTO DE SISTEMAS\trabalhos\campus-events-api\node_modules\pg-protocol\src\parser.ts:187:21)
+    at Parser.parse (C:\Users\RIC\Desktop\Aulas de quarta\TÓPICOS EM DESENVOLVIMENTO DE SISTEMAS\trabalhos\campus-events-api\node_modules\pg-protocol\src\parser.ts:102:30)
+    at Socket.<anonymous> (C:\Users\RIC\Desktop\Aulas de quarta\TÓPICOS EM DESENVOLVIMENTO DE SISTEMAS\trabalhos\campus-events-api\node_modules\pg-protocol\src\index.ts:7:48)
+    at Socket.emit (node:events:508:20)
+    at addChunk (node:internal/streams/readable:564:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:515:3)
+    at Socket.Readable.push (node:internal/streams/readable:395:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+  length: 105,
+  severity: 'FATAL',
+  code: '57P03',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'backend_startup.c',
+  line: '275',
+  routine: 'BackendInitialize'
+}
+
+stdout | src/routes/health.test.ts > health router
+No migrations to run!
+
+ ❯ src/routes/health.test.ts (4 tests | 4 skipped) 448ms
+   ↓ health router > GET /health > responds with healthy status
+   ↓ health router > GET /health/deep > responds with healthy status when database is connected
+   ↓ health router > GET /health/deep > responds with unhealthy status when database connection fails
+   ↓ health router > GET /health/deep > responds with unhealthy status when database returns false
+stdout | src/database/queries.test.ts > queries
+> Migrating files:
+> - 1681229663482_create-tables
+
+stdout | src/database/queries.test.ts > queries
+### MIGRATION 1681229663482_create-tables (UP) ###
+
+stdout | src/database/queries.test.ts > queries
+> Migrating files:
+> - 1681229663482_create-tables
+
+stdout | src/database/queries.test.ts > queries
+### MIGRATION 1681229663482_create-tables (DOWN) ###
+
+ ✓ src/database/queries.test.ts (5 tests) 112ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/routes/health.test.ts > health router
+error: the database system is starting up
+ ❯ Parser.parseErrorMessage node_modules/pg-protocol/src/parser.ts:369:69
+ ❯ Parser.handlePacket node_modules/pg-protocol/src/parser.ts:187:21
+ ❯ Parser.parse node_modules/pg-protocol/src/parser.ts:102:30
+ ❯ Socket.<anonymous> node_modules/pg-protocol/src/index.ts:7:48
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/routes/people.test.ts > people router
+ FAIL  src/routes/people.test.ts > people router
+Error: Connection terminated unexpectedly
+ ❯ Connection.<anonymous> node_modules/pg/lib/client.js:136:73
+ ❯ Socket.<anonymous> node_modules/pg/lib/connection.js:62:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  5 passed | 8 skipped (13)
+   Start at  19:25:46
+   Duration  9.76s (transform 3.31s, setup 0ms, collect 8.55s, tests 591ms, environment 0ms, prepare 214ms)
+
+Exit code: 1

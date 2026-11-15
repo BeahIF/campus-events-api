@@ -1,0 +1,5 @@
+
+> template-node-express@0.0.1 build
+> tsc
+
+Exit code: 0

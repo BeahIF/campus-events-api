@@ -1,3 +1,12 @@
+# Campus Events API — atividades
+
+Repositório de Ricardo Minuto, a partir do projeto fornecido em [BeahIF/campus-events-api](https://github.com/BeahIF/campus-events-api).
+
+- [Entrega 0 — configuração do ambiente, resultados e evidências](docs/entrega-0/README.md)
+
+A documentação do template original está preservada abaixo, com a URL de clone adaptada para este fork.
+
+---
 # Node.js API Template
 
 > A Node.js API template with Express, TypeScript and PostgreSQL
@@ -48,11 +57,11 @@
 
 1. Clone the repository:
    ```
-   git clone https://github.com/miikkaylisiurunen/template-node-express.git
+   git clone https://github.com/Ricardopbm/campus-events-api.git
    ```
 2. Change to the project directory:
    ```
-   cd template-node-express
+   cd campus-events-api
    ```
 3. Copy `.env.example` to `.env`:
    ```

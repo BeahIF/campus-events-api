@@ -1,0 +1,11 @@
+GET /health
+HTTP 200
+{"status":"healthy","timestamp":"2026-11-15T22:26:26.864Z"}
+
+GET /health/deep
+HTTP 200
+{"status":"healthy","timestamp":"2026-11-15T22:26:26.901Z"}
+
+GET /people
+HTTP 200
+[]
