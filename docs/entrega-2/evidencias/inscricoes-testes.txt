@@ -1,0 +1,167 @@
+
+> template-node-express@0.0.1 test
+> vitest --run
+
+
+ RUN  v3.1.4 C:/Users/RIC/Desktop/Aulas de quarta/TÓPICOS EM DESENVOLVIMENTO DE SISTEMAS/trabalhos/campus-events-api
+
+stdout | src/routes/registrations.test.ts > registrations router
+> Migrating files:
+> - 1681229663482_create-tables
+> - 1794782000000_create-events
+> - 1794782100000_create-registrations
+
+stdout | src/routes/registrations.test.ts > registrations router
+### MIGRATION 1681229663482_create-tables (UP) ###
+
+stdout | src/routes/registrations.test.ts > registrations router
+### MIGRATION 1794782000000_create-events (UP) ###
+
+stdout | src/routes/registrations.test.ts > registrations router
+### MIGRATION 1794782100000_create-registrations (UP) ###
+
+stdout | src/routes/registrations.test.ts > registrations router
+> Migrating files:
+> - 1794782100000_create-registrations
+> - 1794782000000_create-events
+> - 1681229663482_create-tables
+
+stdout | src/routes/registrations.test.ts > registrations router
+### MIGRATION 1794782100000_create-registrations (DOWN) ###
+
+stdout | src/routes/registrations.test.ts > registrations router
+### MIGRATION 1794782000000_create-events (DOWN) ###
+
+stdout | src/routes/registrations.test.ts > registrations router
+### MIGRATION 1681229663482_create-tables (DOWN) ###
+
+ ✓ src/routes/registrations.test.ts (16 tests) 396ms
+stdout | src/routes/people.test.ts > people router
+> Migrating files:
+> - 1681229663482_create-tables
+> - 1794782000000_create-events
+> - 1794782100000_create-registrations
+
+stdout | src/routes/people.test.ts > people router
+### MIGRATION 1681229663482_create-tables (UP) ###
+
+stdout | src/routes/people.test.ts > people router
+### MIGRATION 1794782000000_create-events (UP) ###
+
+stdout | src/routes/people.test.ts > people router
+### MIGRATION 1794782100000_create-registrations (UP) ###
+
+stdout | src/routes/people.test.ts > people router
+> Migrating files:
+> - 1794782100000_create-registrations
+> - 1794782000000_create-events
+> - 1681229663482_create-tables
+
+stdout | src/routes/people.test.ts > people router
+### MIGRATION 1794782100000_create-registrations (DOWN) ###
+
+stdout | src/routes/people.test.ts > people router
+### MIGRATION 1794782000000_create-events (DOWN) ###
+
+stdout | src/routes/people.test.ts > people router
+### MIGRATION 1681229663482_create-tables (DOWN) ###
+
+ ✓ src/routes/people.test.ts (4 tests) 148ms
+stdout | src/routes/health.test.ts > health router
+> Migrating files:
+> - 1681229663482_create-tables
+> - 1794782000000_create-events
+> - 1794782100000_create-registrations
+
+stdout | src/routes/health.test.ts > health router
+### MIGRATION 1681229663482_create-tables (UP) ###
+
+stdout | src/routes/health.test.ts > health router
+### MIGRATION 1794782000000_create-events (UP) ###
+
+stdout | src/routes/health.test.ts > health router
+### MIGRATION 1794782100000_create-registrations (UP) ###
+
+stdout | src/routes/health.test.ts > health router
+> Migrating files:
+> - 1794782100000_create-registrations
+> - 1794782000000_create-events
+> - 1681229663482_create-tables
+
+stdout | src/routes/health.test.ts > health router
+### MIGRATION 1794782100000_create-registrations (DOWN) ###
+
+stdout | src/routes/health.test.ts > health router
+### MIGRATION 1794782000000_create-events (DOWN) ###
+
+stdout | src/routes/health.test.ts > health router
+### MIGRATION 1681229663482_create-tables (DOWN) ###
+
+ ✓ src/routes/health.test.ts (4 tests) 109ms
+stdout | src/routes/events.test.ts > events router
+> Migrating files:
+> - 1681229663482_create-tables
+> - 1794782000000_create-events
+> - 1794782100000_create-registrations
+
+stdout | src/routes/events.test.ts > events router
+### MIGRATION 1681229663482_create-tables (UP) ###
+
+stdout | src/routes/events.test.ts > events router
+### MIGRATION 1794782000000_create-events (UP) ###
+
+stdout | src/routes/events.test.ts > events router
+### MIGRATION 1794782100000_create-registrations (UP) ###
+
+stdout | src/routes/events.test.ts > events router
+> Migrating files:
+> - 1794782100000_create-registrations
+> - 1794782000000_create-events
+> - 1681229663482_create-tables
+
+stdout | src/routes/events.test.ts > events router
+### MIGRATION 1794782100000_create-registrations (DOWN) ###
+
+stdout | src/routes/events.test.ts > events router
+### MIGRATION 1794782000000_create-events (DOWN) ###
+
+stdout | src/routes/events.test.ts > events router
+### MIGRATION 1681229663482_create-tables (DOWN) ###
+
+ ✓ src/routes/events.test.ts (11 tests) 203ms
+stdout | src/database/queries.test.ts > queries
+> Migrating files:
+> - 1681229663482_create-tables
+> - 1794782000000_create-events
+> - 1794782100000_create-registrations
+
+stdout | src/database/queries.test.ts > queries
+### MIGRATION 1681229663482_create-tables (UP) ###
+
+stdout | src/database/queries.test.ts > queries
+### MIGRATION 1794782000000_create-events (UP) ###
+
+stdout | src/database/queries.test.ts > queries
+### MIGRATION 1794782100000_create-registrations (UP) ###
+
+stdout | src/database/queries.test.ts > queries
+> Migrating files:
+> - 1794782100000_create-registrations
+> - 1794782000000_create-events
+> - 1681229663482_create-tables
+
+stdout | src/database/queries.test.ts > queries
+### MIGRATION 1794782100000_create-registrations (DOWN) ###
+
+stdout | src/database/queries.test.ts > queries
+### MIGRATION 1794782000000_create-events (DOWN) ###
+
+stdout | src/database/queries.test.ts > queries
+### MIGRATION 1681229663482_create-tables (DOWN) ###
+
+ ✓ src/database/queries.test.ts (5 tests) 102ms
+
+ Test Files  5 passed (5)
+      Tests  40 passed (40)
+   Start at  20:22:44
+   Duration  1.92s (transform 133ms, setup 0ms, collect 651ms, tests 958ms, environment 0ms, prepare 109ms)
