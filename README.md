@@ -3,6 +3,7 @@
 Repositório de Ricardo Minuto, a partir do projeto fornecido em [BeahIF/campus-events-api](https://github.com/BeahIF/campus-events-api).
 
 - [Entrega 0 — configuração do ambiente, resultados e evidências](docs/entrega-0/README.md)
+- [Entrega 1 — backlog inicial e seis issues](docs/entrega-1/README.md)
 
 A documentação do template original está preservada abaixo, com a URL de clone adaptada para este fork.
 

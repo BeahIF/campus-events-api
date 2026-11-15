@@ -1,0 +1,176 @@
+[
+  {
+    "assignees": [
+      {
+        "id": "U_kgDOCZhFjw",
+        "login": "Ricardopbm",
+        "name": "",
+        "databaseId": 160974223
+      }
+    ],
+    "body": "## Contexto / problema\n\nO onboarding já registra a instalação inicial, mas a evolução do template para eventos e inscrições precisará de um guia atualizado para quem clonar o projeto.\n\n## Resultado esperado\n\nREADME com um roteiro reproduzível de instalação e exemplos de uso da API, incluindo os novos endpoints quando estiverem implementados.\n\n## Critérios de aceite\n\n- [ ] Descrever requisitos, configuração local do .env, instalação, banco, migrations e inicialização.\n- [ ] Documentar os comandos de testes, lint e build e a necessidade de aguardar o banco ficar pronto.\n- [ ] Adicionar exemplos de requisição e resposta para criação/listagem de eventos e inscrição, com códigos HTTP.\n- [ ] Explicar erros de entrada inválida, evento inexistente, lotação e inscrição duplicada.\n- [ ] Validar os exemplos com a aplicação em execução, sem publicar segredos.\n\n## Planejamento\n\n- Responsável: @Ricardopbm (trabalho individual).\n- Tipo: documentacao.\n- Prioridade: media.\n- Branch sugerida: `docs/guia-api-eventos`.\n\n## Dependências e observações\n\nA parte dos novos endpoints depende das funcionalidades de eventos e inscrições. Não substitui o relatório já concluído da entrega 0.\n",
+    "labels": [
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZucg",
+        "name": "tipo:documentacao",
+        "description": "Documentação e onboarding",
+        "color": "0075CA"
+      },
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZwiQ",
+        "name": "prioridade:media",
+        "description": "Melhoria planejada após a base funcional",
+        "color": "FBCA04"
+      }
+    ],
+    "number": 1,
+    "state": "OPEN",
+    "title": "Documentar instalação e uso dos endpoints de eventos e inscrições",
+    "url": "https://github.com/Ricardopbm/campus-events-api/issues/1"
+  },
+  {
+    "assignees": [
+      {
+        "id": "U_kgDOCZhFjw",
+        "login": "Ricardopbm",
+        "name": "",
+        "databaseId": 160974223
+      }
+    ],
+    "body": "## Contexto / problema\n\nA API original possui apenas rotas de pessoas e saúde. Não há estrutura para cadastrar e consultar os eventos do campus.\n\n## Resultado esperado\n\nPermitir cadastrar eventos e consultar sua lista, com persistência no PostgreSQL e validação dos dados.\n\n## Critérios de aceite\n\n- [ ] Criar migration reversível para events com id, título, descrição opcional, data/hora e capacidade.\n- [ ] Implementar POST /events com resposta 201 e o evento criado, incluindo seu id.\n- [ ] Exigir título não vazio após remover espaços, data/hora ISO 8601 com fuso e estritamente futura, e capacidade inteira maior que zero; entradas inválidas retornam 400.\n- [ ] Implementar GET /events com resposta 200, lista ordenada por data/hora e lista vazia quando não houver eventos.\n- [ ] Usar consultas parametrizadas e manter as rotas existentes funcionando.\n- [ ] Registrar no PR exemplos de sucesso e de entrada inválida e os resultados de testes, lint e build.\n\n## Planejamento\n\n- Responsável: @Ricardopbm (trabalho individual).\n- Tipo: funcionalidade.\n- Prioridade: alta.\n- Branch sugerida: `feat/cadastro-eventos`.\n\n## Dependências e observações\n\nBase local concluída na entrega 0. É uma das duas issues sugeridas para a entrega 2.\n",
+    "labels": [
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZuzQ",
+        "name": "tipo:funcionalidade",
+        "description": "Funcionalidade da aplicação",
+        "color": "A2EEEF"
+      },
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZwXA",
+        "name": "prioridade:alta",
+        "description": "Necessária para funcionalidades centrais",
+        "color": "D93F0B"
+      }
+    ],
+    "number": 2,
+    "state": "OPEN",
+    "title": "Implementar cadastro e listagem de eventos com data e capacidade",
+    "url": "https://github.com/Ricardopbm/campus-events-api/issues/2"
+  },
+  {
+    "assignees": [
+      {
+        "id": "U_kgDOCZhFjw",
+        "login": "Ricardopbm",
+        "name": "",
+        "databaseId": 160974223
+      }
+    ],
+    "body": "## Contexto / problema\n\nApós o cadastro de eventos, será necessário inscrever participantes sem ultrapassar a capacidade nem cadastrar o mesmo e-mail duas vezes no mesmo evento.\n\n## Resultado esperado\n\nDisponibilizar POST /events/:eventId/registrations, persistindo nome e e-mail do participante e respeitando as regras do evento.\n\n## Critérios de aceite\n\n- [ ] Criar migration reversível de registrations com id, referência ao evento, nome, e-mail e data de inscrição.\n- [ ] Exigir nome não vazio e e-mail válido; normalizar o e-mail removendo espaços externos e convertendo para minúsculas.\n- [ ] Retornar 201 e os dados da inscrição em caso de sucesso; retornar 400 para corpo ou identificador inválido e 404 para evento inexistente.\n- [ ] Rejeitar com 409 a inscrição em evento iniciado, sem vagas ou com o mesmo e-mail já inscrito.\n- [ ] Permitir o mesmo e-mail em eventos diferentes e permitir a ocupação da última vaga disponível.\n- [ ] Garantir unicidade por evento/e-mail no banco e usar transação com bloqueio adequado para evitar exceder a capacidade em requisições concorrentes.\n- [ ] Registrar no PR evidências de sucesso, duplicidade e lotação, além de testes, lint e build.\n\n## Planejamento\n\n- Responsável: @Ricardopbm (trabalho individual).\n- Tipo: funcionalidade.\n- Prioridade: alta.\n- Branch sugerida: `feat/inscricoes-eventos`.\n\n## Dependências e observações\n\nDepende da issue de cadastro de eventos. É a segunda issue sugerida para a entrega 2.\n",
+    "labels": [
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZuzQ",
+        "name": "tipo:funcionalidade",
+        "description": "Funcionalidade da aplicação",
+        "color": "A2EEEF"
+      },
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZwXA",
+        "name": "prioridade:alta",
+        "description": "Necessária para funcionalidades centrais",
+        "color": "D93F0B"
+      }
+    ],
+    "number": 3,
+    "state": "OPEN",
+    "title": "Implementar inscrições com controle de vagas e duplicidade",
+    "url": "https://github.com/Ricardopbm/campus-events-api/issues/3"
+  },
+  {
+    "assignees": [
+      {
+        "id": "U_kgDOCZhFjw",
+        "login": "Ricardopbm",
+        "name": "",
+        "databaseId": 160974223
+      }
+    ],
+    "body": "## Contexto / problema\n\nAs regras de data/capacidade dos eventos e elegibilidade para inscrição precisam ser testadas isoladamente, sem depender de HTTP, Express ou banco de dados.\n\n## Resultado esperado\n\nDuas funcionalidades com regras de domínio reutilizadas pela aplicação e cobertas por testes unitários determinísticos.\n\n## Critérios de aceite\n\n- [ ] Criar módulos/funções de domínio para validar evento e decidir elegibilidade da inscrição, sem dependências de Express ou PostgreSQL.\n- [ ] Receber o instante atual como parâmetro nas regras temporais para evitar testes dependentes do relógio real.\n- [ ] Integrar essas regras aos fluxos implementados, evitando uma segunda implementação exclusiva dos testes.\n- [ ] Criar no mínimo 8 testes Vitest: evento válido, capacidade zero, capacidade um, data igual ao instante atual, inscrição válida, duplicidade, última vaga e evento lotado.\n- [ ] Usar nomes que expressem o comportamento esperado e contemplar sucesso, erro e limite nas duas funcionalidades.\n- [ ] Preservar os testes existentes e anexar ao PR a saída de execução, a descrição das duas funcionalidades e das regras escolhidas.\n\n## Planejamento\n\n- Responsável: @Ricardopbm (trabalho individual).\n- Tipo: teste.\n- Prioridade: alta.\n- Branch sugerida: `test/regras-eventos-inscricoes`.\n\n## Dependências e observações\n\nDepende das funcionalidades de eventos e inscrições. Planejada para atender à entrega 3.\n",
+    "labels": [
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZvZQ",
+        "name": "tipo:teste",
+        "description": "Testes e qualidade",
+        "color": "7057FF"
+      },
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZwXA",
+        "name": "prioridade:alta",
+        "description": "Necessária para funcionalidades centrais",
+        "color": "D93F0B"
+      }
+    ],
+    "number": 4,
+    "state": "OPEN",
+    "title": "Isolar e testar regras de eventos e inscrições com Vitest",
+    "url": "https://github.com/Ricardopbm/campus-events-api/issues/4"
+  },
+  {
+    "assignees": [
+      {
+        "id": "U_kgDOCZhFjw",
+        "login": "Ricardopbm",
+        "name": "",
+        "databaseId": 160974223
+      }
+    ],
+    "body": "## Contexto / problema\n\nO módulo original src/database/queries.ts concentra o acesso ao banco. Acrescentar eventos e inscrições no mesmo arquivo dificulta localizar consultas e manter o código.\n\n## Resultado esperado\n\nOrganizar as consultas por domínio, mantendo uma interface de composição usada pela aplicação e preservando o comportamento público.\n\n## Critérios de aceite\n\n- [ ] Separar consultas de pessoas, eventos e inscrições em módulos com responsabilidades claras.\n- [ ] Preservar a interface de composição necessária ao AppContext e a injeção de dependências.\n- [ ] Manter consultas parametrizadas e o comportamento transacional das inscrições.\n- [ ] Não alterar contratos HTTP, regras de negócio ou esquema do banco nesta refatoração.\n- [ ] Executar a suíte existente, lint e build e registrar os resultados no PR.\n\n## Planejamento\n\n- Responsável: @Ricardopbm (trabalho individual).\n- Tipo: refatoracao.\n- Prioridade: media.\n- Branch sugerida: `refactor/consultas-por-dominio`.\n\n## Dependências e observações\n\nExecutar após cadastro de eventos e inscrições. A estrutura final deve respeitar a organização que existir nesse momento, sem duplicar código.\n",
+    "labels": [
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZvxQ",
+        "name": "tipo:refatoracao",
+        "description": "Refatoração e manutenção",
+        "color": "D4C5F9"
+      },
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZwiQ",
+        "name": "prioridade:media",
+        "description": "Melhoria planejada após a base funcional",
+        "color": "FBCA04"
+      }
+    ],
+    "number": 5,
+    "state": "OPEN",
+    "title": "Separar consultas de eventos e inscrições do módulo de pessoas",
+    "url": "https://github.com/Ricardopbm/campus-events-api/issues/5"
+  },
+  {
+    "assignees": [
+      {
+        "id": "U_kgDOCZhFjw",
+        "login": "Ricardopbm",
+        "name": "",
+        "databaseId": 160974223
+      }
+    ],
+    "body": "## Contexto / problema\n\nOs workflows originais restringem o push à main e não disponibilizam um relatório de cobertura como artefato para inspeção.\n\n## Resultado esperado\n\nExecutar verificações em pushes de qualquer branch e em pull requests, preservando a base existente e disponibilizando cobertura de testes.\n\n## Critérios de aceite\n\n- [ ] Ajustar os gatilhos para push em todas as branches e pull_request.\n- [ ] Manter instalação com npm ci, lint, build e testes com PostgreSQL disponível e configurado.\n- [ ] Configurar geração de cobertura Vitest com dependência compatível com a versão adotada no projeto.\n- [ ] Adicionar upload do relatório por uma GitHub Action referenciada via uses:, com versão suportada verificada na implementação.\n- [ ] Garantir falha do workflow quando testes, lint ou build falharem; não mascarar falhas com continue-on-error.\n- [ ] Documentar a melhoria e incluir no PR links de execução e evidência do artefato de cobertura.\n\n## Planejamento\n\n- Responsável: @Ricardopbm (trabalho individual).\n- Tipo: ci.\n- Prioridade: media.\n- Branch sugerida: `ci/cobertura-e-verificacoes`.\n\n## Dependências e observações\n\nPlanejada para a entrega 4. A avaliação das vulnerabilidades apontadas no onboarding permanece como pendência adicional; esta issue não afirma corrigi-las.\n",
+    "labels": [
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZwAQ",
+        "name": "tipo:ci",
+        "description": "Infraestrutura e integração contínua",
+        "color": "0E8A16"
+      },
+      {
+        "id": "LA_kwDOVvsbOs8AAAADDIZwiQ",
+        "name": "prioridade:media",
+        "description": "Melhoria planejada após a base funcional",
+        "color": "FBCA04"
+      }
+    ],
+    "number": 6,
+    "state": "OPEN",
+    "title": "Evoluir CI para todas as branches e publicar relatório de cobertura",
+    "url": "https://github.com/Ricardopbm/campus-events-api/issues/6"
+  }
+]
