@@ -172,7 +172,7 @@ Additionally, a `dependabot.yml` configuration is included and run automatically
 
 * **Passo 2: Validação do Endpoint `/health`**
   * Retorno do status operacional e do timestamp da API.
-  * *Evidência:* ![Evidência Health Check](./Evid%C3%AAncia.png)
+  * *Evidência:* ![Evidência Health Check](./Evidencia1.png)
 
 * **Passo 3: Validação do Endpoint `/people`**
   * Retorno da listagem de registros da aplicação em formato JSON.
