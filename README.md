@@ -169,3 +169,4 @@ Additionally, a `dependabot.yml` configuration is included and run automatically
 * **Validação de Endpoints:**
   * **Endpoint `/health`:** Acessado e validado retornando o status de funcionamento correto da API (`{"status":"saudável", ...}`).
   * **Painel do Render:** Comprovação de serviço ativo com status `Deploy succeeded | Live`.
+    
