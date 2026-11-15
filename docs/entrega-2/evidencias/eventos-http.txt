@@ -1,0 +1,14 @@
+POST http://localhost:3010/events
+{
+  "capacity": 1,
+  "startsAt": "2026-11-22T23:21:23.1676172Z",
+  "title": "Oficina de desenvolvimento"
+}
+HTTP 201
+{"id":1,"title":"Oficina de desenvolvimento","description":null,"startsAt":"2026-11-22T23:21:23.167Z","capacity":1}
+POST /events (entrada invalida)
+HTTP 400
+{"status":400,"message":"Invalid request","name":"ZodError"}
+GET /events
+HTTP 200
+[{"id":1,"title":"Oficina de desenvolvimento","description":null,"startsAt":"2026-11-22T23:21:23.167Z","capacity":1}]
