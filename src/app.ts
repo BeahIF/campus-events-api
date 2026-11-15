@@ -14,8 +14,8 @@ export function makeApp(ctx: AppContext): Express {
   app.use(express.json());
   app.use(ctx.middleware.logger);
 
-  app.use('/health', makeHealthRoutes(ctx));
-  app.use('/people', makePeopleRoutes(ctx));
+  aplicativo.usar('/health', makeHealthRoutes(ctx));
+aplicativo.usar('/people', makePeopleRoutes(ctx));
 
   app.use(ctx.middleware.routeNotFound);
   app.use(ctx.middleware.errorHandler);
