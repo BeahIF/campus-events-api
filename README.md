@@ -162,12 +162,17 @@ Additionally, a `dependabot.yml` configuration is included and run automatically
 ## Entrega 5 — Ambiente e Publicação (Deploy)
 
 ### 1. URL do Ambiente Publicado
-* **URL Pública da API:** `https://campus-events-api-rwlz.onrender.com`
+* **URL pública da API:** `https://campus-events-api-rwlz.onrender.com`
 
 ### 2. Validação de Endpoints após a Publicação
 Foram validados e testados com sucesso dois endpoints da aplicação em ambiente produtivo:
-* **Endpoint 1 (`/health`):** Retorna o status operacional e o timestamp da API.
-  * *Evidência:* ![Evidência Health Check](Evidência.png)
-* **Endpoint 2 (Painel / Status de Deploy):** Validação da infraestrutura e logs no Render.
-  * *Evidência:* ![Evidência Deploy Render](Evidência_Deploy.png)
+
+* **Endpoint 1 (`/health`):** retorna o status operacional e o timestamp da API.
+  * *Evidência:* ![Evidência Health Check](./Evid%C3%AAncia.png)
+
+* **Endpoint 2 (`/people`):** retorna a listagem de pessoas cadastradas na aplicação em formato JSON.
+  * *Evidência:* ![Evidência People Endpoint](./Evidencia2.png)
+
+* **Status da Infraestrutura (Render):**
+  * *Evidência:* ![Evidência Deploy Render](./Evidencia_Deploy.png)
     
