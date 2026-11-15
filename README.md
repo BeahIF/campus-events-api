@@ -158,3 +158,22 @@ The workflows included are:
 - `lint.yml` - Runs ESLint to find linting issues, ensuring that your code is always in compliance with your ESLint rules, which can improve code quality and consistency.
 
 Additionally, a `dependabot.yml` configuration is included and run automatically on a weekly basis. It detects outdated npm packages and creates pull requests to update them, ensuring that your npm packages are always up to date, which can improve security and prevent bugs caused by outdated packages.
+
+## Entrega 5 — Ambiente e Publicação (Deploy)
+
+### 1. URL do Ambiente Publicado
+* **URL pública da API:** `https://campus-events-api-rwlz.onrender.com`
+
+### 2. Validação e Evidências do Processo
+
+* **Passo 1: Status da Infraestrutura e Deploy no Render**
+  * Validação do painel de controle e logs de compilação da API na nuvem.
+  * *Evidência:* ![Evidência Deploy Render](./Evidencia_Deploy.png)
+
+* **Passo 2: Validação do Endpoint `/health`**
+  * Retorno do status operacional e do timestamp da API.
+  * *Evidência:* ![Evidência Health Check](./Evidencia1.png)
+
+* **Passo 3: Validação do Endpoint `/people`**
+  * Retorno da listagem de registros da aplicação em formato JSON.
+  * *Evidência:* ![Evidência People Endpoint](./Evidencia2.png)
