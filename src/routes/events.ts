@@ -10,9 +10,10 @@ const EventInput = z.object({
   capacity: z.number().int().positive().max(2147483647),
 });
 export type EventInput = z.infer<typeof EventInput>;
-export interface CampusEvent extends Omit<EventInput, 'description'> {
+export interface CampusEvent extends Omit<EventInput, 'description' | 'startsAt'> {
   id: number;
   description: string | null;
+  startsAt: Date;
 }
 
 export function makeEventRoutes({ queries }: AppContext): Router {

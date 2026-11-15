@@ -1,0 +1,7 @@
+
+> template-node-express@0.0.1 lint
+> eslint . --max-warnings 0
+
+
+> template-node-express@0.0.1 build
+> tsc
