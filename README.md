@@ -164,9 +164,10 @@ Additionally, a `dependabot.yml` configuration is included and run automatically
 ### 1. URL do Ambiente Publicado
 * **URL Pública da API:** `https://campus-events-api-rwlz.onrender.com`
 
-### 2. Evidências do Funcionamento e Validação
-* **Deploy Bem-Sucedido:** O serviço foi provisionado no Render utilizando Docker, conectado ao banco de dados PostgreSQL (`campus-events-db`), com as variáveis de ambiente configuradas no painel.
-* **Validação de Endpoints:**
-  * **Endpoint `/health`:** Acessado e validado retornando o status de funcionamento correto da API (`{"status":"saudável", ...}`).
-  * **Painel do Render:** Comprovação de serviço ativo com status `Deploy succeeded | Live`.
+### 2. Validação de Endpoints após a Publicação
+Foram validados e testados com sucesso dois endpoints da aplicação em ambiente produtivo:
+* **Endpoint 1 (`/health`):** Retorna o status operacional e o timestamp da API.
+  * *Evidência:* ![Evidência Health Check](Evidência.png)
+* **Endpoint 2 (Painel / Status de Deploy):** Validação da infraestrutura e logs no Render.
+  * *Evidência:* ![Evidência Deploy Render](Evidência_Deploy.png)
     
