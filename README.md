@@ -20,6 +20,7 @@
   - [Running tests](#running-tests)
   - [Automated tests](#automated-tests)
 - [Continuous integration](#continuous-integration)
+- [Ambiente publicado (Render)](#ambiente-publicado-render)
 
 ## Features
 
@@ -37,63 +38,72 @@
 - Code formatting and linting with [Prettier](https://prettier.io) and [ESLint](https://eslint.org/) to improve code quality and consistency
 - Environment variable validation
 
-## How to use
+## Como usar
 
-### Requirements
+### Pré-requisitos
 
-- Node.js v20 or higher
+- Node.js v20 ou superior
 - Docker
 
-### Getting started
+### Primeiros passos
 
-1. Clone the repository:
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/Kethelems/campus-events-api.git
    ```
-   git clone https://github.com/miikkaylisiurunen/template-node-express.git
+2. Entre na pasta do projeto:
+   ```bash
+   cd campus-events-api
    ```
-2. Change to the project directory:
-   ```
-   cd template-node-express
-   ```
-3. Copy `.env.example` to `.env`:
-   ```
+3. Copie o `.env.example` para `.env`:
+   ```bash
    cp .env.example .env
    ```
-4. Install npm packages:
-   ```
+
+   > **Importante:** o `.env.example` já vem com um valor padrão de `DATABASE_URL` compatível com o Docker Compose local — só troque se for usar outro banco. A aplicação valida essa variável na inicialização e encerra o processo com um erro claro caso ela não esteja definida.
+
+4. Instale as dependências:
+   ```bash
    npm install
    ```
-5. Start the database services with Docker Compose:
-   ```
+5. Suba os serviços do banco de dados com Docker Compose:
+   ```bash
    npm run db:up
    ```
-6. Start the development server:
-   ```
+6. Inicie o servidor de desenvolvimento:
+   ```bash
    npm run dev
    ```
+7. Para rodar os testes:
+   ```bash
+   npm test
+   ```
 
-**Note:** If you update the database credentials in either the `.env` or `docker-compose.yml` file, be sure to also update the other file with the same changes to ensure that the database can still be accessed correctly.
+   > **Nota:** os testes usam um banco separado (`postgres-test`), já configurado via `TEST_DATABASE_URL` no `.env.example`. Certifique-se de que o Docker está rodando antes de executar os testes.
+
+> **Nota:** Se você alterar as credenciais do banco no `.env` ou no `docker-compose.yml`, atualize os dois arquivos com os mesmos valores, senão a aplicação não vai conseguir se conectar ao banco.
 
 ### Scripts
 
-```
-start       # start the production server
-dev         # start the development server
-build       # build the project using tsc
-lint        # find ESLint issues
-lint:fix    # fix ESLint issues
-test        # run tests
-db:up       # start the database services with docker compose
-db:down     # stop and remove the database services
-```
+| Script       | Descrição                                               |
+|--------------|---------------------------------------------------------|
+| `start`      | inicia o servidor em modo produção                      |
+| `dev`        | inicia o servidor em modo desenvolvimento               |
+| `build`      | compila o projeto usando o `tsc`                        |
+| `lint`       | verifica problemas de ESLint                            |
+| `lint:fix`   | corrige problemas de ESLint automaticamente             |
+| `test`       | executa os testes                                       |
+| `db:up`      | sobe os serviços de banco de dados via Docker Compose   |
+| `db:down`    | para e remove os serviços de banco de dados             |
 
-### Default routes
+### Rotas padrão
 
 ```
-GET /people         # get all people from the database
-POST /people        # add a new person with required body properties: "name" and "age"
+GET /people         # retorna todas as pessoas cadastradas no banco
+POST /people        # cadastra uma nova pessoa (campos obrigatórios: "name" e "age")
 
-GET /health         # basic health check (api status)
-GET /health/deep    # complete health check (api status + database connection)
+GET /health         # verificação básica de saúde da API
+GET /health/deep    # verificação completa (status da API + conexão com o banco)
 ```
 
 ## Directory structure
@@ -158,3 +168,55 @@ The workflows included are:
 - `lint.yml` - Runs ESLint to find linting issues, ensuring that your code is always in compliance with your ESLint rules, which can improve code quality and consistency.
 
 Additionally, a `dependabot.yml` configuration is included and run automatically on a weekly basis. It detects outdated npm packages and creates pull requests to update them, ensuring that your npm packages are always up to date, which can improve security and prevent bugs caused by outdated packages.
+
+## Ambiente publicado (Render)
+
+**URL pública:** https://campus-events-api-zdky.onrender.com
+
+### Arquitetura
+
+```
+Usuário / Postman → Render Web Service (Dockerfile) → Render PostgreSQL
+```
+
+- **Infraestrutura como código:** o arquivo [`render.yaml`](render.yaml) (Blueprint) define o Web Service e o banco.
+- **Web Service `campus-events-api`:** build a partir do `Dockerfile`, branch `main`, plano Free, região Oregon.
+- **Banco `campus-events-db`:** Render PostgreSQL (plano Free), mesma região do Web Service, acessado pela rede interna do Render.
+- **Migrations:** executadas automaticamente no startup da API (`applyMigrations`).
+
+### Variáveis de ambiente
+
+| Variável | Tipo | Origem |
+|---|---|---|
+| `DATABASE_URL` | secret | injetada pelo Render a partir do banco (`fromDatabase` no `render.yaml`) |
+| `NODE_ENV` | configuração | `production` (definida no `render.yaml`) |
+| `PORT` | configuração | fornecida automaticamente pelo Render |
+
+Nenhuma credencial é versionada no repositório: a senha do banco só existe no painel do Render.
+
+### Health check
+
+O Render usa `GET /health` como **Health Check Path**: uma nova versão só recebe tráfego depois de responder `200`.
+
+- `GET /health` → a API está no ar (liveness)
+- `GET /health/deep` → a API consegue acessar o PostgreSQL (readiness)
+
+### Como validar
+
+```bash
+curl -i https://campus-events-api-zdky.onrender.com/health
+curl -i https://campus-events-api-zdky.onrender.com/health/deep
+curl -i https://campus-events-api-zdky.onrender.com/people
+curl -i -X POST https://campus-events-api-zdky.onrender.com/people -H "Content-Type: application/json" -d '{"name":"Ana","age":20}'
+```
+
+Resposta esperada: `HTTP 200`, com `{"status":"healthy"}` nos health checks, a lista de pessoas em `GET /people` e a pessoa criada em `POST /people` (gravada no PostgreSQL).
+
+Resultado do smoke test executado após o deploy: [`docs/evidencias-deploy.txt`](docs/evidencias-deploy.txt).
+
+> O plano Free hiberna após 15 min sem uso: a primeira requisição pode levar ~1 min. O PostgreSQL Free expira 30 dias após a criação (banco criado em 16/11/2026, disponível até 16/12/2026).
+
+### Deploy e rollback
+
+- **Auto-deploy:** `autoDeployTrigger: checksPass`. O Render só publica um novo commit da `main` depois que os workflows de CI (build, testes e lint) passam.
+- **Rollback:** Render → Service → **Events** → escolher um deploy anterior saudável → **Rollback**. O rollback volta apenas o código; por isso, migrations destrutivas devem ser evitadas.
