@@ -1,0 +1,28 @@
+﻿Smoke test - https://campus-events-api-zdky.onrender.com - 2026-11-16 21:18:30 -03:00
+Commit publicado no Render: 4f7c04d (main)
+
+> curl -i -X GET https://campus-events-api-zdky.onrender.com/health
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+{"status":"healthy","timestamp":"2026-11-17T00:18:30.396Z"}
+
+> curl -i -X GET https://campus-events-api-zdky.onrender.com/health/deep
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+{"status":"healthy","timestamp":"2026-11-17T00:18:30.810Z"}
+
+> curl -i -X GET https://campus-events-api-zdky.onrender.com/people
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+[]
+
+> curl -i -X POST https://campus-events-api-zdky.onrender.com/people
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+{"name":"Teste Deploy","age":20}
+
+> curl -i -X GET https://campus-events-api-zdky.onrender.com/people
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+[{"name":"Teste Deploy","age":20}]
+
