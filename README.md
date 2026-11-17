@@ -20,6 +20,7 @@
   - [Running tests](#running-tests)
   - [Automated tests](#automated-tests)
 - [Continuous integration](#continuous-integration)
+- [Ambiente publicado (Render)](#ambiente-publicado-render)
 
 ## Features
 
@@ -167,3 +168,55 @@ The workflows included are:
 - `lint.yml` - Runs ESLint to find linting issues, ensuring that your code is always in compliance with your ESLint rules, which can improve code quality and consistency.
 
 Additionally, a `dependabot.yml` configuration is included and run automatically on a weekly basis. It detects outdated npm packages and creates pull requests to update them, ensuring that your npm packages are always up to date, which can improve security and prevent bugs caused by outdated packages.
+
+## Ambiente publicado (Render)
+
+**URL pública:** https://campus-events-api-zdky.onrender.com
+
+### Arquitetura
+
+```
+Usuário / Postman → Render Web Service (Dockerfile) → Render PostgreSQL
+```
+
+- **Infraestrutura como código:** o arquivo [`render.yaml`](render.yaml) (Blueprint) define o Web Service e o banco.
+- **Web Service `campus-events-api`:** build a partir do `Dockerfile`, branch `main`, plano Free, região Oregon.
+- **Banco `campus-events-db`:** Render PostgreSQL (plano Free), mesma região do Web Service, acessado pela rede interna do Render.
+- **Migrations:** executadas automaticamente no startup da API (`applyMigrations`).
+
+### Variáveis de ambiente
+
+| Variável | Tipo | Origem |
+|---|---|---|
+| `DATABASE_URL` | secret | injetada pelo Render a partir do banco (`fromDatabase` no `render.yaml`) |
+| `NODE_ENV` | configuração | `production` (definida no `render.yaml`) |
+| `PORT` | configuração | fornecida automaticamente pelo Render |
+
+Nenhuma credencial é versionada no repositório: a senha do banco só existe no painel do Render.
+
+### Health check
+
+O Render usa `GET /health` como **Health Check Path**: uma nova versão só recebe tráfego depois de responder `200`.
+
+- `GET /health` → a API está no ar (liveness)
+- `GET /health/deep` → a API consegue acessar o PostgreSQL (readiness)
+
+### Como validar
+
+```bash
+curl -i https://campus-events-api-zdky.onrender.com/health
+curl -i https://campus-events-api-zdky.onrender.com/health/deep
+curl -i https://campus-events-api-zdky.onrender.com/people
+curl -i -X POST https://campus-events-api-zdky.onrender.com/people -H "Content-Type: application/json" -d '{"name":"Ana","age":20}'
+```
+
+Resposta esperada: `HTTP 200`, com `{"status":"healthy"}` nos health checks, a lista de pessoas em `GET /people` e a pessoa criada em `POST /people` (gravada no PostgreSQL).
+
+Resultado do smoke test executado após o deploy: [`docs/evidencias-deploy.txt`](docs/evidencias-deploy.txt).
+
+> O plano Free hiberna após 15 min sem uso: a primeira requisição pode levar ~1 min. O PostgreSQL Free expira 30 dias após a criação (banco criado em 16/11/2026, disponível até 16/12/2026).
+
+### Deploy e rollback
+
+- **Auto-deploy:** `autoDeployTrigger: checksPass`. O Render só publica um novo commit da `main` depois que os workflows de CI (build, testes e lint) passam.
+- **Rollback:** Render → Service → **Events** → escolher um deploy anterior saudável → **Rollback**. O rollback volta apenas o código; por isso, migrations destrutivas devem ser evitadas.
