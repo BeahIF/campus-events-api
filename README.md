@@ -214,7 +214,7 @@ Resposta esperada: `HTTP 200`, com `{"status":"healthy"}` nos health checks, a l
 
 Resultado do smoke test executado após o deploy: [`docs/evidencias-deploy.txt`](docs/evidencias-deploy.txt).
 
-> O plano Free hiberna após 15 min sem uso: a primeira requisição pode levar ~1 min. O PostgreSQL Free expira 30 dias após a criação.
+> O plano Free hiberna após 15 min sem uso: a primeira requisição pode levar ~1 min. O PostgreSQL Free expira 30 dias após a criação (banco criado em 16/11/2026, disponível até 16/12/2026).
 
 ### Deploy e rollback
 
