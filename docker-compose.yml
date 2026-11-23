@@ -17,3 +17,16 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - 4328:5432
+  api:
+    # Sobe a API em container junto com o banco de desenvolvimento:
+    #   docker compose --profile full up --build
+    profiles: ['full']
+    build: .
+    restart: on-failure
+    depends_on:
+      - postgres-dev
+    environment:
+      PORT: 3001
+      DATABASE_URL: postgres://api:password@postgres-dev:5432/api_dev
+    ports:
+      - 3001:3001
