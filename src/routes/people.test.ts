@@ -56,8 +56,8 @@ describe('people router', () => {
       expect(response2.headers['content-type']).toContain('application/json');
       expect(response2.body).toHaveLength(2);
       expect(response2.body).toEqual([
-        { name: 'John', age: 20 },
-        { name: 'Joe', age: 21 },
+        { id: expect.any(Number), name: 'John', age: 20 },
+        { id: expect.any(Number), name: 'Joe', age: 21 },
       ]);
     });
   });
@@ -71,7 +71,7 @@ describe('people router', () => {
       const response = await request(app).post('/people').send({ name: 'Joe', age: 21 });
       expect(response.statusCode).toBe(200);
       expect(response.headers['content-type']).toContain('application/json');
-      expect(response.body).toEqual({ name: 'Joe', age: 21 });
+      expect(response.body).toEqual({ id: expect.any(Number), name: 'Joe', age: 21 });
 
       // make sure it was added to database
       const people2 = await queries.getAllPeople();
