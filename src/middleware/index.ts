@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod/v4';
 import { HttpError } from '../errors';
+import { BusinessRuleError } from '../domain/events';
 import { HttpLogger, pinoHttp } from 'pino-http';
 import { Logger } from 'pino';
 import { randomUUID } from 'node:crypto';
@@ -44,6 +45,12 @@ export const makeMiddleware = (logger: Logger): Middleware => {
       if (err instanceof HttpError) {
         req.log.warn(err, loggerMsg);
         res.status(err.status).send({ status: err.status, message: err.message, name: err.name });
+        return;
+      } else if (err instanceof BusinessRuleError) {
+        // Violação de regra de negócio: dado inválido (400) ou conflito com o estado atual (409)
+        const status = err.code === 'INVALID_EVENT' ? 400 : 409;
+        req.log.warn(err, loggerMsg);
+        res.status(status).send({ status, message: err.message, name: err.name });
         return;
       } else if (err instanceof ZodError) {
         req.log.warn(err, loggerMsg);

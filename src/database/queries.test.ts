@@ -71,8 +71,8 @@ describe('queries', () => {
       const people2 = await queries.getAllPeople();
       expect(people2).toHaveLength(2);
       expect(people2).toEqual([
-        { name: 'Joe', age: 20 },
-        { name: 'John', age: 21 },
+        { id: expect.any(Number), name: 'Joe', age: 20 },
+        { id: expect.any(Number), name: 'John', age: 21 },
       ]);
     });
   });
